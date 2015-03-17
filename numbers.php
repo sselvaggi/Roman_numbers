@@ -1,25 +1,27 @@
 <?php
 class RomanNumber {
+	public static $simbols = [['I', 'V'],['X', 'L'],['C', 'D'],['M',':V:'],[':X:',':L:'],[':C:', ':D:']];
+	private static function digit($digit,$exponent=0) {
+		$result = '';
+		if($digit == 1) $result = self::$simbols[$exponent][0];
+		if($digit == 2) $result = self::$simbols[$exponent][0].self::$simbols[$exponent][0];
+		if($digit == 3) $result = self::$simbols[$exponent][0].self::$simbols[$exponent][0].self::$simbols[$exponent][0];
+		if($digit == 4) $result = self::$simbols[$exponent][0].self::$simbols[$exponent][1];
+		if($digit == 5) $result = self::$simbols[$exponent][1];
+		if($digit == 6) $result = self::$simbols[$exponent][1].self::$simbols[$exponent][0];
+		if($digit == 7) $result = self::$simbols[$exponent][1].self::$simbols[$exponent][0].self::$simbols[$exponent][0];
+		if($digit == 8) $result = self::$simbols[$exponent][1].self::$simbols[$exponent][0].self::$simbols[$exponent][0].self::$simbols[$exponent][0];
+		if($digit == 9) $result = self::$simbols[$exponent][0].self::$simbols[$exponent+1][0];
+		return $result;
+	}
+	public static function to_roman($number) {
 
-	public function to_roman($number) {
-
-		$simbols = [];
-		$simbols[0] = ['I', 'V'];
-		$simbols[1] = ['X', 'L'];
-
-		if($number == 1) $result = $simbols[0][0];
-		if($number == 2) $result = $simbols[0][0].$simbols[0][0];
-		if($number == 3) $result = $simbols[0][0].$simbols[0][0].$simbols[0][0];
-		if($number == 4) $result = $simbols[0][0].$simbols[0][1];
-		if($number == 5) $result = $simbols[0][1];
-		if($number == 6) $result = $simbols[0][1].$simbols[0][0];
-		if($number == 7) $result = $simbols[0][1].$simbols[0][0].$simbols[0][0];
-		if($number == 8) $result = $simbols[0][1].$simbols[0][0].$simbols[0][0].$simbols[0][0];
-		if($number == 9) $result = $simbols[0][0].$simbols[1][0];
-		if($number == 10) $result = $simbols[1][0];
-		if($number == 11) $result = $simbols[1][0].$simbols[0][0];
-		if($number == 12) $result = $simbols[1][0].$simbols[0][0].$simbols[0][0];
-		if($number == 13) $result = $simbols[1][0].$simbols[0][0].$simbols[0][0].$simbols[0][0];
+		$digits = (string)$number;
+		$result = '';
+		$length = strlen($digits);
+		for($i=0;$i<$length;$i++) {
+			$result = $result . self::digit($digits[$i], $length-$i-1);
+		}
 		return $result;
 	}
 }
